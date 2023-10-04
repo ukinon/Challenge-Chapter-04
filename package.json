@@ -1,0 +1,35 @@
+{
+  "name": "ch4-09-29-2023-template-ejs-car-main",
+  "version": "1.0.0",
+  "description": "",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js",
+    "dev": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ukinon/Challenge-Chapter-04.git"
+  },
+  "author": "arfiano",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/ukinon/Challenge-Chapter-04/issues"
+  },
+  "homepage": "https://github.com/ukinon/Challenge-Chapter-04#readme",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "connect-flash": "^0.1.1",
+    "dotenv": "^16.3.1",
+    "ejs": "^3.1.9",
+    "express": "^4.18.2",
+    "express-session": "^1.17.3",
+    "mongoose": "^7.5.2",
+    "morgan": "^1.10.0",
+    "multer": "^1.4.5-lts.1"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.1"
+  }
+}
