@@ -8,16 +8,16 @@ const router = express.Router()
 
 router
   .route("/")
-  .get(carsController.getAllTours)
+  .get(carsController.getAllCars)
   .post(
     upload.single("image"),
-    carsController.createTour
+    carsController.createCar
   )
 
 router
   .route("/:id")
-  .get(carsController.getTourById)
-  .patch(carsController.editTour)
-  .delete(carsController.removeTour)
+  .get(carsController.getCarById)
+  .patch(carsController.editCar)
+  .delete(carsController.removeCar)
 
 module.exports = router

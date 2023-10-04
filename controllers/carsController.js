@@ -1,12 +1,12 @@
 const fs = require("fs")
-const Tour = require("../models/carsModel")
+const Car = require("../models/carsModel")
 
-const createTour = async (req, res) => {
+const createCar = async (req, res) => {
   try {
     if (!req.file)
       return res.send("Please upload a file")
 
-    const newTour = await Tour.create({
+    const newCar = await Car.create({
       ...req.body,
       date: new Date().toString(),
       img: req.file.path,
@@ -14,7 +14,7 @@ const createTour = async (req, res) => {
     res.status(201).json({
       status: "success",
       data: {
-        tour: newTour,
+        Car: newCar,
       },
     })
   } catch (err) {
@@ -26,7 +26,7 @@ const createTour = async (req, res) => {
   }
 }
 
-const getAllTours = async (req, res) => {
+const getAllCars = async (req, res) => {
   try {
     const { category, nameSearch } = req.query
     const condition = {}
@@ -40,14 +40,14 @@ const getAllTours = async (req, res) => {
       }
     }
 
-    const tours = await Tour.find(condition)
+    const Cars = await Car.find(condition)
 
     res.status(200).json({
       status: "success",
       requestTime: req.requestTime,
-      length: tours.length,
+      length: Cars.length,
       data: {
-        tours,
+        Cars,
       },
     })
   } catch (err) {
@@ -58,16 +58,14 @@ const getAllTours = async (req, res) => {
   }
 }
 
-const getTourById = async (req, res) => {
+const getCarById = async (req, res) => {
   try {
-    const tour = await Tour.findById(
-      req.params.id
-    )
+    const Car = await Car.findById(req.params.id)
 
     res.status(200).json({
       status: "success",
       data: {
-        tour,
+        Car,
       },
     })
   } catch (err) {
@@ -78,11 +76,11 @@ const getTourById = async (req, res) => {
   }
 }
 
-const editTour = async (req, res) => {
+const editCar = async (req, res) => {
   try {
     const id = req.params.id
 
-    const tour = await Tour.findByIdAndUpdate(
+    const Car = await Car.findByIdAndUpdate(
       id,
       req.body,
       {
@@ -93,7 +91,7 @@ const editTour = async (req, res) => {
     res.status(201).json({
       status: "success",
       data: {
-        tour: tour,
+        Car: Car,
       },
     })
   } catch (err) {
@@ -104,18 +102,25 @@ const editTour = async (req, res) => {
   }
 }
 
-const removeTour = async (req, res) => {
+const removeCar = async (req, res) => {
   try {
     const id = req.params.id
 
-    const tour = await Tour.findByIdAndRemove(id)
+    const CarById = await Car.findById(id)
+    var image = CarById.img
+    fs.unlink(image, (err) => {
+      if (err) throw err
+      console.log("successfully deleted file")
+    })
+
+    const Car = await Car.findByIdAndRemove(id)
 
     // validator
-    if (!tour) {
+    if (!Car) {
       return res.status(400).json({
         status: "failed",
         message:
-          "data with this id is not define",
+          "data with this id is not defined",
       })
     }
 
@@ -132,9 +137,9 @@ const removeTour = async (req, res) => {
 }
 
 module.exports = {
-  getAllTours,
-  getTourById,
-  createTour,
-  editTour,
-  removeTour,
+  getAllCars,
+  getCarById,
+  createCar,
+  editCar,
+  removeCar,
 }

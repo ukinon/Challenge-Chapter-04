@@ -1,4 +1,5 @@
 const Car = require(".././models/carsModel")
+const fs = require("fs")
 
 const getAllCars = async (req, res) => {
   try {
@@ -122,6 +123,13 @@ const editCar = async (req, res) => {
 const removeCar = async (req, res) => {
   try {
     const id = req.params.id
+
+    const carById = await Car.findById(id)
+    var image = carById.img
+    fs.unlink(image, (err) => {
+      if (err) throw err
+      console.log("successfully deleted file")
+    })
 
     await Car.findByIdAndRemove(id)
 
