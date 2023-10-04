@@ -106,7 +106,29 @@ const editCar = async (req, res) => {
   try {
     const id = req.params.id
 
-    await Car.findByIdAndUpdate(id, req.body)
+    let car
+
+    if (req.file) {
+      const CarById = await Car.findById(id)
+
+      var image = CarById.img
+
+      fs.unlink(image, (err) => {
+        if (err) throw err
+        console.log("successfully deleted file")
+      })
+
+      car = await Car.findByIdAndUpdate(id, {
+        ...req.body,
+        date: new Date().toString(),
+        img: req.file.path,
+      })
+    }
+
+    car = await Car.findByIdAndUpdate(id, {
+      ...req.body,
+      date: new Date().toString(),
+    })
 
     req.flash("message", "Diubah")
     req.flash("messageType", "success")

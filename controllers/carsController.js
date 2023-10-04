@@ -80,18 +80,38 @@ const editCar = async (req, res) => {
   try {
     const id = req.params.id
 
-    const Car = await Car.findByIdAndUpdate(
+    let car
+
+    if (req.file) {
+      const CarById = await Car.findById(id)
+
+      var image = CarById.img
+
+      fs.unlink(image, (err) => {
+        if (err) throw err
+        console.log("successfully deleted file")
+      })
+
+      car = await Car.findByIdAndUpdate(id, {
+        ...req.body,
+        date: new Date().toString(),
+        img: req.file.path,
+      })
+    }
+
+    car = await Car.findByIdAndUpdate(
       id,
-      req.body,
       {
-        new: true,
-      }
+        ...req.body,
+        date: new Date().toString(),
+      },
+      { new: true }
     )
 
     res.status(201).json({
       status: "success",
       data: {
-        Car: Car,
+        Car: car,
       },
     })
   } catch (err) {

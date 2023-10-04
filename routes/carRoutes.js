@@ -17,7 +17,10 @@ router
 router
   .route("/:id")
   .get(carsController.getCarById)
-  .patch(carsController.editCar)
+  .patch(
+    upload.single("image"),
+    carsController.editCar
+  )
   .delete(carsController.removeCar)
 
 module.exports = router

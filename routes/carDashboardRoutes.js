@@ -20,6 +20,9 @@ router
 router
   .route("/edit/:id")
   .get(carsController.editCarsPage)
-  .post(carsController.editCar)
+  .post(
+    upload.single("image"),
+    carsController.editCar
+  )
 
 module.exports = router
