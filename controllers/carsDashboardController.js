@@ -39,10 +39,8 @@ const getAllCars = async (req, res) => {
 }
 const createCarsPage = async (req, res) => {
   try {
-    const date = new Date().toISOString()
     const error = req.flash("error", "")
     res.render("create", {
-      date: date,
       error: error,
     })
   } catch (err) {
@@ -67,11 +65,19 @@ const editCarsPage = async (req, res) => {
 
 const createCar = async (req, res) => {
   try {
+    let date = new Date()
+
+    let day = date.getDate()
+    let month = date.toLocaleString("default", {
+      month: "long",
+    })
+    let year = date.getFullYear()
+
     await Car.create({
       name: req.body.name,
       price: req.body.price,
       size: req.body.size,
-      date: req.body.date,
+      date: `${day} ${month} ${year}`,
       img: req.file.path,
     })
     req.flash("message", "Ditambah")
@@ -105,6 +111,13 @@ const getCarById = async (req, res) => {
 const editCar = async (req, res) => {
   try {
     const id = req.params.id
+    let date = new Date()
+
+    let day = date.getDate()
+    let month = date.toLocaleString("default", {
+      month: "long",
+    })
+    let year = date.getFullYear()
 
     let car
 
@@ -120,14 +133,14 @@ const editCar = async (req, res) => {
 
       car = await Car.findByIdAndUpdate(id, {
         ...req.body,
-        date: new Date().toString(),
+        date: `${day} ${month} ${year}`,
         img: req.file.path,
       })
     }
 
     car = await Car.findByIdAndUpdate(id, {
       ...req.body,
-      date: new Date().toString(),
+      date: `${day} ${month} ${year}`,
     })
 
     req.flash("message", "Diubah")
