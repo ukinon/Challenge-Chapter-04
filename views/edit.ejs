@@ -89,6 +89,9 @@
                                     <li class="breadcrumb-item active" aria-current="page">Update Car Information</li>
                                 </ol>
                             </nav>
+                            <div class="alert alert-danger <%= error != '' ? "" : "d-none" %>" role="alert">
+                                <%= error %>
+                           </div>
                             <div class="d-flex justify-content-between">
                                 <h5>
                                     Update Car Information
@@ -132,7 +135,7 @@
                                                     <p>Foto<i style="color: #FA2C5A;">*</i></p>
                                                 </div>
                                                 <div class="col-lg-8">
-                                                    <input name="image" class="form-control" type="file" id="formFile" value="">
+                                                    <input name="image" class="form-control" type="file" accept=".png, .jpg, .jpeg" id="formFile" value="">
                                                     <small>File size max. 2MB</small>
                                                 </div>
                                             </div>

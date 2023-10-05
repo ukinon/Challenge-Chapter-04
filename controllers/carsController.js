@@ -60,12 +60,12 @@ const getAllCars = async (req, res) => {
 
 const getCarById = async (req, res) => {
   try {
-    const Car = await Car.findById(req.params.id)
+    const car = await Car.findById(req.params.id)
 
     res.status(200).json({
       status: "success",
       data: {
-        Car,
+        car,
       },
     })
   } catch (err) {
@@ -133,10 +133,10 @@ const removeCar = async (req, res) => {
       console.log("successfully deleted file")
     })
 
-    const Car = await Car.findByIdAndRemove(id)
+    const car = await Car.findByIdAndRemove(id)
 
     // validator
-    if (!Car) {
+    if (!car) {
       return res.status(400).json({
         status: "failed",
         message:

@@ -31,10 +31,7 @@ const getAllCars = async (req, res) => {
       messageType: messageType,
     })
   } catch (err) {
-    res.status(400).json({
-      status: "failed",
-      message: err.message,
-    })
+    res.redirect("..")
   }
 }
 const createCarsPage = async (req, res) => {
@@ -44,10 +41,7 @@ const createCarsPage = async (req, res) => {
       error: error,
     })
   } catch (err) {
-    res.status(400).json({
-      status: "failed",
-      message: err.message,
-    })
+    res.redirect("..")
   }
 }
 
@@ -56,10 +50,7 @@ const editCarsPage = async (req, res) => {
     const car = await Car.findById(req.params.id)
     res.render("edit", { car: car })
   } catch (err) {
-    res.status(400).json({
-      status: "failed",
-      message: err.message,
-    })
+    res.redirect("..")
   }
 }
 
@@ -90,24 +81,6 @@ const createCar = async (req, res) => {
   }
 }
 
-const getCarById = async (req, res) => {
-  try {
-    const Car = await Car.findById(req.params.id)
-
-    res.status(200).json({
-      status: "success",
-      data: {
-        Car,
-      },
-    })
-  } catch (err) {
-    res.status(400).json({
-      status: "success",
-      message: err.message,
-    })
-  }
-}
-
 const editCar = async (req, res) => {
   try {
     const id = req.params.id
@@ -119,8 +92,6 @@ const editCar = async (req, res) => {
     })
     let year = date.getFullYear()
 
-    let car
-
     if (req.file) {
       const CarById = await Car.findById(id)
 
@@ -131,14 +102,14 @@ const editCar = async (req, res) => {
         console.log("successfully deleted file")
       })
 
-      car = await Car.findByIdAndUpdate(id, {
+      await Car.findByIdAndUpdate(id, {
         ...req.body,
         date: `${day} ${month} ${year}`,
         img: req.file.path,
       })
     }
 
-    car = await Car.findByIdAndUpdate(id, {
+    await Car.findByIdAndUpdate(id, {
       ...req.body,
       date: `${day} ${month} ${year}`,
     })
@@ -148,10 +119,9 @@ const editCar = async (req, res) => {
 
     res.redirect("/")
   } catch (err) {
-    res.status(400).json({
-      status: "failed",
-      message: err.message,
-    })
+    console.log(err)
+    req.flash("error", "please upload an image")
+    res.redirect("..")
   }
 }
 
@@ -173,10 +143,9 @@ const removeCar = async (req, res) => {
 
     res.redirect("/")
   } catch (err) {
-    res.status(400).json({
-      status: "failed",
-      message: err.message,
-    })
+    console.log(err)
+    req.flash("error", "failed to remove data")
+    res.redirect("/")
   }
 }
 
@@ -184,7 +153,6 @@ module.exports = {
   getAllCars,
   createCarsPage,
   editCarsPage,
-  getCarById,
   createCar,
   editCar,
   removeCar,
