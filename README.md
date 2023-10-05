@@ -213,7 +213,7 @@ GET /api/v1/cars/:id
 ### Delete Car
 
 ```bash
-DELETE /api/v1/:id
+DELETE /api/v1/cars/:id
 ```
 
 #### Response
